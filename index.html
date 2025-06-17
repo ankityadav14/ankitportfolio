@@ -803,4 +803,26 @@
     <script src="./packages/js/main.js"></script>
 </body>
 
+        <script>
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+        const form = e.target;
+        const inputs = form.querySelectorAll('.contact__input');
+
+        let allValid = true;
+        inputs.forEach(input => {
+            if (!input.value.trim()) {
+                allValid = false;
+                input.style.border = '2px solid red'; // optional: highlight missing fields
+            } else {
+                input.style.border = ''; // reset border if field is filled
+            }
+        });
+
+        if (!allValid) {
+            e.preventDefault(); // prevent form submission
+            alert('Please fill in all the fields.');
+        }
+    });
+</script>
+
 </html>
