@@ -719,7 +719,7 @@
 
                 <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" class="contact__form grid">
     <input type="hidden" name="access_key" value="fa030bbf-8b25-4dff-9cd1-d31141f3ae02">
-    
+
     <div class="contact__inputs grid">
         <div class="contact__content">
             <label class="contact__label">Name</label>
@@ -734,7 +734,6 @@
 
     <div class="contact__content">
         <label class="contact__label">Subject</label>
-        <!-- ✅ ADDED name="subject" -->
         <input type="text" name="subject" class="contact__input" required>
     </div>
 
@@ -806,22 +805,46 @@
 </body>
 
         <script>
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
-        const inputs = e.target.querySelectorAll('.contact__input');
-        let allValid = true;
+    const form = document.getElementById('contactForm');
+
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const inputs = form.querySelectorAll('.contact__input');
+        let valid = true;
 
         inputs.forEach(input => {
             if (!input.value.trim()) {
-                allValid = false;
-                input.style.border = '2px solid red'; // highlight empty
+                valid = false;
+                input.style.border = '2px solid red';
             } else {
-                input.style.border = ''; // reset border
+                input.style.border = '';
             }
         });
 
-        if (!allValid) {
-            e.preventDefault(); // stop submission
-            alert('Please fill in all fields before submitting.');
+        if (!valid) {
+            alert('Please fill in all fields.');
+            return;
+        }
+
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch(form.action, {
+                method: form.method,
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Form submitted successfully!');
+                form.reset();
+                inputs.forEach(input => input.style.border = ''); // clear red borders
+            } else {
+                alert('Form submission failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Error submitting form.');
         }
     });
 </script>
