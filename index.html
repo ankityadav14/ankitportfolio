@@ -717,36 +717,38 @@
                     </div>
                 </div>
 
-                <form action="https://api.web3forms.com/submit" method="POST" class="contact__form grid">
-                    <input type="hidden" name="access_key" value="fa030bbf-8b25-4dff-9cd1-d31141f3ae02">
-                    <div class="contact__inputs grid">
-                        <div class="contact__content">
-                            <label for="" class="contact__label">Name</label>
-                            <input type="text" name="name"  class="contact__input" required>
-                        </div>
+                <form id="contactForm" action="https://api.web3forms.com/submit" method="POST" class="contact__form grid">
+    <input type="hidden" name="access_key" value="fa030bbf-8b25-4dff-9cd1-d31141f3ae02">
+    
+    <div class="contact__inputs grid">
+        <div class="contact__content">
+            <label class="contact__label">Name</label>
+            <input type="text" name="name" class="contact__input" required>
+        </div>
 
-                        <div class="contact__content">
-                            <label for="" class="contact__label">E-mail</label>
-                            <input type="email" name="email" class="contact__input" required>
-                        </div>
-                    </div>
+        <div class="contact__content">
+            <label class="contact__label">E-mail</label>
+            <input type="email" name="email" class="contact__input" required>
+        </div>
+    </div>
 
-                    <div class="contact__content">
-                        <label for="" class="contact__label">Subject</label>
-                        <input type="text" class="contact__input" required>
-                    </div>
+    <div class="contact__content">
+        <label class="contact__label">Subject</label>
+        <!-- ✅ ADDED name="subject" -->
+        <input type="text" name="subject" class="contact__input" required>
+    </div>
 
-                    <div class="contact__content">
-                        <label for="" class="contact__label">Description</label>
-                        <textarea name="message" id=""  class="contact__input" required></textarea>
-                    </div>
+    <div class="contact__content">
+        <label class="contact__label">Description</label>
+        <textarea name="message" class="contact__input" required></textarea>
+    </div>
 
-                    <div>
-                        <button class="button-74" role="button" type="submit">Submit
-                            <i class="uil uil-message button__icon"></i>
-                        </button>
-                    </div>
-                </form>
+    <div>
+        <button class="button-74" role="button" type="submit">
+            Submit <i class="uil uil-message button__icon"></i>
+        </button>
+    </div>
+</form>
             </div>
 
         </section>
@@ -805,22 +807,21 @@
 
         <script>
     document.getElementById('contactForm').addEventListener('submit', function (e) {
-        const form = e.target;
-        const inputs = form.querySelectorAll('.contact__input');
-
+        const inputs = e.target.querySelectorAll('.contact__input');
         let allValid = true;
+
         inputs.forEach(input => {
             if (!input.value.trim()) {
                 allValid = false;
-                input.style.border = '2px solid red'; // optional: highlight missing fields
+                input.style.border = '2px solid red'; // highlight empty
             } else {
-                input.style.border = ''; // reset border if field is filled
+                input.style.border = ''; // reset border
             }
         });
 
         if (!allValid) {
-            e.preventDefault(); // prevent form submission
-            alert('Please fill in all the fields.');
+            e.preventDefault(); // stop submission
+            alert('Please fill in all fields before submitting.');
         }
     });
 </script>
